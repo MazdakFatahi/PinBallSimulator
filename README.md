@@ -48,7 +48,7 @@ pip install numpy pygame
 
 ---
 
-## ▶️ Run the Game
+## ▶️ Example: 
 
 ```bash
 python game.py
