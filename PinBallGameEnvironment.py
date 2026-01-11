@@ -224,67 +224,67 @@ class GameEnvironment():
     def _check_flippers_collision(self, action):
         self.left_success_hit = False
         self.right_success_hit = False
-
+        if action == 1:
         # --- Flipper Collision Detection ---
         # Left flipper collision
         # left_tip = left_flipper_pivot + np.array(self._rotate_point((FLIPPER_LENGTH, 0), left_flipper_angle))
         # Extend hitbox length by 10% for collision detection
-        collision_length = self.FLIPPER_LENGTH * 1.1  
-        left_tip = self.left_flipper_pivot + np.array(self._rotate_point((collision_length, 0), self.left_flipper_angle))
+            collision_length = self.FLIPPER_LENGTH * 1.1  
+            left_tip = self.left_flipper_pivot + np.array(self._rotate_point((collision_length, 0), self.left_flipper_angle))
 
-        dist, closest = self._point_segment_distance((self.ball_x, self.ball_y), self.left_flipper_pivot, left_tip)
-        if dist < self.BALL_RADIUS:
-            
-            collision_vec = np.array([self.ball_x, self.ball_y]) - closest
-            if np.linalg.norm(collision_vec) != 0:
-                normal = collision_vec / np.linalg.norm(collision_vec)
-                v = np.array([self.ball_vx_px_per_frame, self.ball_vy_px_per_frame])
-                v_reflected = self._reflect_vector(v, normal)
-                self.left_hit = True
-                self.LEFT_FLIPPER_TOUCH_NUM += 1
-
-                if action == 1:
-                    v_reflected *= self.FLIPPER_BOOST
-                    self.left_success_hit = True
-                    # self.right_success_hit = False
-                    # self.right_hit = False
-                    self.LEFT_FLIPPER_SUCCESS_HIT_NUM += 1
-
-                    print("left_success_hit")
-                # else:
-                #     print("left_touch")
-                self.ball_vx_px_per_frame, self.ball_vy_px_per_frame = v_reflected
-                self.ball_x, self.ball_y = closest + normal * (self.BALL_RADIUS + 20)
+            dist, closest = self._point_segment_distance((self.ball_x, self.ball_y), self.left_flipper_pivot, left_tip)
+            if dist < self.BALL_RADIUS:
                 
-        # Right flipper collision
-        # right_tip = right_flipper_pivot + np.array(self._rotate_point((FLIPPER_LENGTH, 0), right_flipper_angle))
-        collision_length = self.FLIPPER_LENGTH * 1.1
-        right_tip = self.right_flipper_pivot + np.array(self._rotate_point((collision_length, 0), self.right_flipper_angle))
+                collision_vec = np.array([self.ball_x, self.ball_y]) - closest
+                if np.linalg.norm(collision_vec) != 0:
+                    normal = collision_vec / np.linalg.norm(collision_vec)
+                    v = np.array([self.ball_vx_px_per_frame, self.ball_vy_px_per_frame])
+                    v_reflected = self._reflect_vector(v, normal)
+                    self.left_hit = True
+                    self.LEFT_FLIPPER_TOUCH_NUM += 1
 
-        dist, closest = self._point_segment_distance((self.ball_x, self.ball_y), self.right_flipper_pivot, right_tip)
-        if dist < self.BALL_RADIUS:
-            
-            collision_vec = np.array([self.ball_x, self.ball_y]) - closest
-            if np.linalg.norm(collision_vec) != 0:
-                normal = collision_vec / np.linalg.norm(collision_vec)
-                v = np.array([self.ball_vx_px_per_frame, self.ball_vy_px_per_frame])
-                v_reflected = self._reflect_vector(v, normal)
-                # self.right_hit = True
-                self.RIGHT_FLIPPER_TOUCH_NUM += 1
+                    if action == 1:
+                        v_reflected *= self.FLIPPER_BOOST
+                        self.left_success_hit = True
+                        # self.right_success_hit = False
+                        # self.right_hit = False
+                        self.LEFT_FLIPPER_SUCCESS_HIT_NUM += 1
 
-                if action == 2:
-                    v_reflected *= self.FLIPPER_BOOST
-                    # self.left_hit = False
-                    # self.left_success_hit = False
-                    self.right_success_hit = True
-                    self.RIGHT_FLIPPER_SUCCESS_HIT_NUM += 1
+                        print("left_success_hit")
+                    # else:
+                    #     print("left_touch")
+                    self.ball_vx_px_per_frame, self.ball_vy_px_per_frame = v_reflected
+                    self.ball_x, self.ball_y = closest + normal * (self.BALL_RADIUS + 20)
+        if action == 2:            
+            # Right flipper collision
+            # right_tip = right_flipper_pivot + np.array(self._rotate_point((FLIPPER_LENGTH, 0), right_flipper_angle))
+            collision_length = self.FLIPPER_LENGTH * 1.1
+            right_tip = self.right_flipper_pivot + np.array(self._rotate_point((collision_length, 0), self.right_flipper_angle))
+
+            dist, closest = self._point_segment_distance((self.ball_x, self.ball_y), self.right_flipper_pivot, right_tip)
+            if dist < self.BALL_RADIUS:
+                
+                collision_vec = np.array([self.ball_x, self.ball_y]) - closest
+                if np.linalg.norm(collision_vec) != 0:
+                    normal = collision_vec / np.linalg.norm(collision_vec)
+                    v = np.array([self.ball_vx_px_per_frame, self.ball_vy_px_per_frame])
+                    v_reflected = self._reflect_vector(v, normal)
+                    # self.right_hit = True
+                    self.RIGHT_FLIPPER_TOUCH_NUM += 1
+
+                    if action == 2:
+                        v_reflected *= self.FLIPPER_BOOST
+                        # self.left_hit = False
+                        # self.left_success_hit = False
+                        self.right_success_hit = True
+                        self.RIGHT_FLIPPER_SUCCESS_HIT_NUM += 1
 
 
-                    print("right_success_hit")
-                # else:
-                #     print("right_touch")
-                self.ball_vx_px_per_frame, self.ball_vy_px_per_frame = v_reflected
-                self.ball_x, self.ball_y = closest + normal * (self.BALL_RADIUS + 20)
+                        print("right_success_hit")
+                    # else:
+                    #     print("right_touch")
+                    self.ball_vx_px_per_frame, self.ball_vy_px_per_frame = v_reflected
+                    self.ball_x, self.ball_y = closest + normal * (self.BALL_RADIUS + 20)
 
     def _check_bumpers_collision(self):
 
