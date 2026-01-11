@@ -41,7 +41,7 @@ while(True):
     if game_over == False:
 
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]  and keys[pygame.K_RIGHT]:# It will not be taken into consideration, even if you hit the ball.
+        if keys[pygame.K_LEFT]  and keys[pygame.K_RIGHT]:
             action = 3
         if (not keys[pygame.K_LEFT]) and keys[pygame.K_RIGHT]:
             action = 2
@@ -55,14 +55,15 @@ while(True):
         left_edge  = keys[pygame.K_LEFT]  and not prev_keys[pygame.K_LEFT]
         right_edge = keys[pygame.K_RIGHT] and not prev_keys[pygame.K_RIGHT]
         
-        # action = 0
+        
+        # action = 0# to avoid over counting
         if left_edge == True:
             cnt_left += 1
-            # action = 1
+            # action = 1# to avoid over counting
             print('Left Edge')
         if right_edge == True:
             cnt_right += 1
-            # action = 2
+            # action = 2# to avoid over counting
             print('Right Edge')
         prev_keys = keys
         _, game_over, _, left_success_hit, right_success_hit  = game.play_step(action=action)
